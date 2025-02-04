@@ -1,0 +1,15 @@
+{
+  "name": "curso-api-rest-javascript-practico",
+  "version": "1.0.0",
+  "description": "Curso practico de Consumo de Api Rest con JavaScript",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "(https://github.com/eliasmoranurcia10/curso-api-rest-javascript-practico.git)"
+  },
+  "author": "@eliasmoranurcia10",
+  "license": "MIT"
+}
