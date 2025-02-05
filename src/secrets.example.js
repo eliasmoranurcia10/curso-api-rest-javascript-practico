@@ -1,2 +1,2 @@
 //Crea por favor un archivo secrets.js con tu API KEI
-const API_KEY = "CLAVE";
+const API_KEYS = "Colocar clave";
