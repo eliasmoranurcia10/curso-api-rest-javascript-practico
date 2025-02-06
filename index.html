@@ -10,17 +10,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@700;800&family=Red+Hat+Display:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles/app.css" />
 
-    <title>PlatziMovies</title>
+    <title>SkyMovies</title>
 </head>
 <body>
     <header id="header" class="header-container">
         <span class="header-arrow inactive">&lt;</span>
-        <h1 class="header-title">PlatziMovies</h1>
+        <h1 class="header-title">SkyMovies</h1>
         <h1 class="header-title header-title--categoryView inactive">Acción</h1>
 
         <form id="searchForm" class="header-searchForm">
             <input type="text" placeholder="Vengadores" />
-            <button>🔍</button>
+            <button id="searchBtn">🔍</button>
         </form>
     </header>
 
@@ -83,7 +83,7 @@
         </div>
     </section>
 
-    <section id="movieDetail" class="movieDetail-container inactive
+    <section id="movieDetail" class="movieDetail-container inactive">
         <h1 class="movieDetail-title">Deadpool</h1>
         <span class="movieDetail-score">7.6</span>
         <p class="movieDetail-description">
@@ -135,9 +135,12 @@
         </article>
     </section>
 
-    <footer>Hecho con amor desde Platzi</footer>
+    <footer>Hecho con amor - SkyMovies</footer>
   
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./src/secrets.js"></script>
+    <script src="./src/nodes.js"></script>
     <script src="./src/main.js"></script>
+    <script src="./src/navigation.js"></script>
 </body>
 </html>
