@@ -9,7 +9,21 @@ const api = axios.create({
 });
 
 //Util
-function createMovies(movies,container){
+//Clase de Lazy Loading
+//entries es la lista de tarjetas img y entry los recorre a cad auno
+const lazyLoader = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        //console.log({entry});
+        if(entry.isIntersecting){
+            const url = entry.target.getAttribute('data-img');
+            entry.target.setAttribute('src', url);
+        }
+        
+    });
+});
+
+
+function createMovies(movies,container, lazyLoad = false){
     //limpiar el contenedor
     container.innerHTML = '';
 
@@ -26,9 +40,14 @@ function createMovies(movies,container){
         movieImg.classList.add('movie-img');
         movieImg.setAttribute('alt', movie.title);
         movieImg.setAttribute(
-            'src',
+            lazyLoad ? 'data-img': 'src',
             'https://image.tmdb.org/t/p/w300' + movie.poster_path
         );
+        //Clase de Intersection Observer 
+        //movieImg es un array que contiene una lista de imagentes
+        if(lazyLoad) {
+            lazyLoader.observe(movieImg);
+        }
         movieContainer.appendChild(movieImg);
         container.appendChild(movieContainer);
     });
@@ -68,7 +87,7 @@ async function getTrendingMoviesPreview() {
 
     console.log(movies);
 
-    createMovies(movies,trendingMoviesPreviewList);
+    createMovies(movies,trendingMoviesPreviewList, true);
 
 }
 

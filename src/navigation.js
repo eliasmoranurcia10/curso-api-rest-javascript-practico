@@ -3,7 +3,6 @@ window.addEventListener('DOMContentLoaded',navigator, false);
 //Escucha el evento cuando se cambia el hash en el navegador
 window.addEventListener('hashchange',navigator, false);
 
-
 //Cambie la url a search concatenando el query
 searchFormBtn.addEventListener('click', () => {
     location.hash = "#search=" + searchFormInput.value;
@@ -14,7 +13,6 @@ trendingBtn.addEventListener('click', () => {
 });
 
 arrowBtn.addEventListener('click', () => {
-    history.back();
     history.back();
 });
 
