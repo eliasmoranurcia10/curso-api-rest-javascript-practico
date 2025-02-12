@@ -16,6 +16,7 @@ const lazyLoader = new IntersectionObserver((entries) => {
         //console.log({entry});
         if(entry.isIntersecting){
             const url = entry.target.getAttribute('data-img');
+            //console.log(entry.target);
             entry.target.setAttribute('src', url);
         }
         
@@ -23,10 +24,12 @@ const lazyLoader = new IntersectionObserver((entries) => {
 });
 
 
-function createMovies(movies,container, lazyLoad = false){
+function createMovies(movies,container, {lazyLoad = false, clean = true}){
     //limpiar el contenedor
-    container.innerHTML = '';
-
+    if (clean) {
+        container.innerHTML = '';
+    }
+    
     movies.forEach(movie => {
        
         const movieContainer = document.createElement('div');
@@ -39,10 +42,16 @@ function createMovies(movies,container, lazyLoad = false){
         const movieImg = document.createElement('img');
         movieImg.classList.add('movie-img');
         movieImg.setAttribute('alt', movie.title);
+
         movieImg.setAttribute(
             lazyLoad ? 'data-img': 'src',
             'https://image.tmdb.org/t/p/w300' + movie.poster_path
         );
+
+        movieImg.addEventListener('error', () => {
+            movieImg.setAttribute('src','https://e0.pxfuel.com/wallpapers/912/253/desktop-wallpaper-game-over-no-signal-error-glitch-ideas-in-2021-glitch-glitch.jpg')
+        });
+
         //Clase de Intersection Observer 
         //movieImg es un array que contiene una lista de imagentes
         if(lazyLoad) {
@@ -115,7 +124,7 @@ async function getMoviesByCategory(id) {
 
     console.log(movies);
 
-    createMovies(movies,genericSection);
+    createMovies(movies,genericSection, true);
 }
 
 async function getMoviesBySearch(query) {
@@ -141,9 +150,60 @@ async function getTrendingMovies() {
 
     console.log(movies);
 
-    createMovies(movies,genericSection);
+    createMovies(
+        movies,
+        genericSection,
+        { 
+            lazyLoad:true, 
+            clean:true
+        }
+    );
+
+    /* 
+    const btnLoadMore = document.createElement('button');
+    btnLoadMore.innerText = 'Cargar más';
+    btnLoadMore.addEventListener('click', getPaginatedTrendingMovies );
+    genericSection.appendChild(btnLoadMore); 
+    */
 
 }
+
+
+
+async function getPaginatedTrendingMovies() {
+    //Calcula que el scroll haya llegado al final del documento
+    const {scrollTop, scrollHeight, clientHeight} = document.documentElement;
+
+    const scrollIsBotton = (scrollTop + scrollHeight) >= (clientHeight - 15);
+
+    if(scrollIsBotton){
+        page++;
+        const {data} = await api('trending/movie/day',{
+            params:{
+                page,
+            },
+        });
+        const movies = data.results;
+
+        createMovies(
+            movies,
+            genericSection,
+            { 
+                lazyLoad:true, 
+                clean:false
+            }
+        );
+    }
+
+    /* 
+    CREANDO UN BOTON PARA CARGAR MÁS PELÍCULAS
+    const btnLoadMore = document.createElement('button');
+    btnLoadMore.innerText = 'Cargar más';
+    btnLoadMore.addEventListener('click', getPaginatedTrendingMovies );
+    genericSection.appendChild(btnLoadMore); 
+    */
+}
+
 
 async function getMovieById(id) {
     

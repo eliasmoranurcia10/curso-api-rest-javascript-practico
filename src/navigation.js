@@ -1,7 +1,13 @@
+
+let page = 1;
+let infiniteScroll;
+
 //Escucha el evento cuando el navegador esta cargado
 window.addEventListener('DOMContentLoaded',navigator, false);
 //Escucha el evento cuando se cambia el hash en el navegador
 window.addEventListener('hashchange',navigator, false);
+//Escucha elevento cuando se le da scroll a la pantalla
+window.addEventListener('scroll',infiniteScroll,{ passive: false });
 
 //Cambie la url a search concatenando el query
 searchFormBtn.addEventListener('click', () => {
@@ -20,6 +26,11 @@ arrowBtn.addEventListener('click', () => {
 function navigator(){
     console.log({location});
 
+    if(infiniteScroll) {
+        window.removeEventListener('scroll',infiniteScroll,{ passive: false });
+        infiniteScroll = undefined;
+    }
+
     if(location.hash.startsWith('#trends')){
         trendsPage();
     } else if(location.hash.startsWith('#search=')){
@@ -36,6 +47,10 @@ function navigator(){
     //Muestra la parte superior del documento html
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+
+    if(infiniteScroll){
+        window.addEventListener('scroll',infiniteScroll,{ passive: false });
+    }
 }
 
 function homePage(){
@@ -84,6 +99,7 @@ function categoriesPage(){
 
     getMoviesByCategory(categoryId);
 }
+
 function movieDetailsPage(){
     console.log('Movie!!')
 
@@ -105,6 +121,7 @@ function movieDetailsPage(){
     const [,movieId] = location.hash.split('=')
     getMovieById(movieId);
 }
+
 function searchPage(){
     console.log('Search!!');
     //Lógica de mostrar y ocultar secciones
@@ -148,4 +165,6 @@ function trendsPage(){
     headerCategoryTitle.innerHTML = 'Tendencias';
 
     getTrendingMovies();
+
+    infiniteScroll = getPaginatedTrendingMovies;
 }
