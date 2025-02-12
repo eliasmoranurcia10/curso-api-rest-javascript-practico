@@ -96,7 +96,14 @@ async function getTrendingMoviesPreview() {
 
     console.log(movies);
 
-    createMovies(movies,trendingMoviesPreviewList, true);
+    createMovies(
+        movies,
+        trendingMoviesPreviewList, 
+        { 
+            lazyLoad:false, 
+            clean:true
+        }
+    );
 
 }
 
@@ -124,7 +131,14 @@ async function getMoviesByCategory(id) {
 
     console.log(movies);
 
-    createMovies(movies,genericSection, true);
+    createMovies(
+        movies,
+        genericSection, 
+        { 
+            lazyLoad:true, 
+            clean:true
+        }
+    );
 }
 
 async function getMoviesBySearch(query) {
@@ -140,7 +154,14 @@ async function getMoviesBySearch(query) {
 
     console.log(movies);
 
-    createMovies(movies,genericSection);
+    createMovies(
+        movies,
+        genericSection,
+        { 
+            lazyLoad:false, 
+            clean:true
+        }
+    );
 }
 
 async function getTrendingMovies() {
@@ -231,5 +252,12 @@ async function getRelatedMoviesId(id) {
     const {data} = await api(`movie/${id}/recommendations`);
     const relatedMovies = data.results;
 
-    createMovies(relatedMovies,relatedMoviesContainer);
+    createMovies(
+        relatedMovies,
+        relatedMoviesContainer,
+        { 
+            lazyLoad:false, 
+            clean:true
+        }
+    );
 }
