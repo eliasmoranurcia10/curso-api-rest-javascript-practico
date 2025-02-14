@@ -1,4 +1,4 @@
-
+let maxPage;
 let page = 1;
 let infiniteScroll;
 
@@ -47,7 +47,7 @@ function navigator(){
     //Muestra la parte superior del documento html
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-
+    //Cierra el evento infiniteScroll
     if(infiniteScroll){
         window.addEventListener('scroll',infiniteScroll,{ passive: false });
     }
@@ -66,12 +66,15 @@ function homePage(){
     searchForm.classList.remove('inactive');
 
     trendingPreviewSection.classList.remove('inactive');
+    likedMoviesSection.classList.remove('inactive');
     categoriesPreviewSection.classList.remove('inactive');
     genericSection.classList.add('inactive');
     movieDetailSection.classList.add('inactive');
+    
 
     getTrendingMoviesPreview();
     getCategoriesPreview();
+    getLikedMovies();
 }
 
 function categoriesPage(){
@@ -87,6 +90,7 @@ function categoriesPage(){
     searchForm.classList.add('inactive');
 
     trendingPreviewSection.classList.add('inactive');
+    likedMoviesSection.classList.add('inactive');
     categoriesPreviewSection.classList.add('inactive');
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
@@ -98,6 +102,8 @@ function categoriesPage(){
     headerCategoryTitle.innerHTML = categoryName;
 
     getMoviesByCategory(categoryId);
+
+    infiniteScroll = getPaginatedMoviesByCategory(categoryId);
 }
 
 function movieDetailsPage(){
@@ -114,6 +120,7 @@ function movieDetailsPage(){
 
     trendingPreviewSection.classList.add('inactive');
     categoriesPreviewSection.classList.add('inactive');
+    likedMoviesSection.classList.add('inactive'); 
     genericSection.classList.add('inactive');
     movieDetailSection.classList.remove('inactive');
 
@@ -136,6 +143,7 @@ function searchPage(){
 
     trendingPreviewSection.classList.add('inactive');
     categoriesPreviewSection.classList.add('inactive');
+    likedMoviesSection.classList.add('inactive');
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
 
@@ -144,7 +152,11 @@ function searchPage(){
     const [,query] = location.hash.split('='); // ['#search','valor buscado'];
     //Envía el query
     getMoviesBySearch(query);
+
+    infiniteScroll = getPaginatedMoviesBySearch(query);
+
 }
+
 function trendsPage(){
     console.log('Trends!!');
 
@@ -159,6 +171,7 @@ function trendsPage(){
 
     trendingPreviewSection.classList.add('inactive');
     categoriesPreviewSection.classList.add('inactive');
+    likedMoviesSection.classList.add('inactive');
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
 
